@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Relatório de Execução QA</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg: #08102b;
+      --card: #101936;
+      --text: #f3f5ff;
+      --muted: #b7bfdc;
+      --border: rgba(255,255,255,.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .metric-label { color: var(--muted); font-size: .95rem; }
+    .metric-value { font-size: 2rem; font-weight: bold; margin-top: 8px; }
+    .grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+    th { color: var(--muted); }
+    canvas { width: 100% !important; height: 340px !important; }
+    @media (max-width: 980px) {
+      .metrics, .grid, .grid-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>Relatório de Execução de QA</h1>
+      <p>Período analisado: <strong>15 dias</strong></p>
+    </div>
+
+    <div class="metrics">
+      <div class="card">
+        <div class="metric-label">Colaboradores</div>
+        <div class="metric-value">7</div>
+      </div>
+      <div class="card">
+        <div class="metric-label">Executados</div>
+        <div class="metric-value">143</div>
+      </div>
+      <div class="card">
+        <div class="metric-label">Passed</div>
+        <div class="metric-value">119</div>
+      </div>
+      <div class="card">
+        <div class="metric-label">Pass rate médio</div>
+        <div class="metric-value">83.2%</div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Execuções por colaborador</h3>
+        <canvas id="executedChart"></canvas>
+      </div>
+      <div class="card">
+        <h3>Distribuição</h3>
+        <canvas id="pieChart"></canvas>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>Passed x Failed</h3>
+        <canvas id="stackedChart"></canvas>
+      </div>
+      <div class="card">
+        <h3>Pass Rate</h3>
+        <canvas id="passRateChart"></canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Detalhamento</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Colaborador</th>
+            <th>Executados</th>
+            <th>Passed</th>
+            <th>Failed</th>
+            <th>Blocked</th>
+            <th>Pass Rate</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        <tr>
+          <td>Julyano Torres Costa</td>
+          <td>48</td>
+          <td>40</td>
+          <td>6</td>
+          <td>0</td>
+          <td>83.3%</td>
+        </tr>
+        
+
+        <tr>
+          <td>Patricia Menezes Barcellos</td>
+          <td>29</td>
+          <td>22</td>
+          <td>4</td>
+          <td>0</td>
+          <td>75.9%</td>
+        </tr>
+        
+
+        <tr>
+          <td>Jairo Candido Da Silva Namiki</td>
+          <td>26</td>
+          <td>26</td>
+          <td>0</td>
+          <td>0</td>
+          <td>100.0%</td>
+        </tr>
+        
+
+        <tr>
+          <td>Hebrom Souza</td>
+          <td>22</td>
+          <td>15</td>
+          <td>2</td>
+          <td>4</td>
+          <td>68.2%</td>
+        </tr>
+        
+
+        <tr>
+          <td>Romulo Severo De Freitas</td>
+          <td>14</td>
+          <td>12</td>
+          <td>2</td>
+          <td>0</td>
+          <td>85.7%</td>
+        </tr>
+        
+
+        <tr>
+          <td>Dafne Correa Makrakis</td>
+          <td>3</td>
+          <td>3</td>
+          <td>0</td>
+          <td>0</td>
+          <td>100.0%</td>
+        </tr>
+        
+
+        <tr>
+          <td>Cristian Rangel D Almeida de Souza</td>
+          <td>1</td>
+          <td>1</td>
+          <td>0</td>
+          <td>0</td>
+          <td>100.0%</td>
+        </tr>
+        
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const labels = ["Julyano Torres Costa", "Patricia Menezes Barcellos", "Jairo Candido Da Silva Namiki", "Hebrom Souza", "Romulo Severo De Freitas", "Dafne Correa Makrakis", "Cristian Rangel D Almeida de Souza"];
+    const executed = [48, 29, 26, 22, 14, 3, 1];
+    const passed = [40, 22, 26, 15, 12, 3, 1];
+    const failed = [6, 4, 0, 2, 2, 0, 0];
+    const passRate = [83.3, 75.9, 100.0, 68.2, 85.7, 100.0, 100.0];
+
+    new Chart(document.getElementById('executedChart'), {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Executados',
+          data: executed
+        }]
+      }
+    });
+
+    new Chart(document.getElementById('pieChart'), {
+      type: 'doughnut',
+      data: {
+        labels,
+        datasets: [{
+          data: executed
+        }]
+      }
+    });
+
+    new Chart(document.getElementById('stackedChart'), {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [
+          { label: 'Passed', data: passed },
+          { label: 'Failed', data: failed }
+        ]
+      },
+      options: {
+        scales: {
+          x: { stacked: true },
+          y: { stacked: true }
+        }
+      }
+    });
+
+    new Chart(document.getElementById('passRateChart'), {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Pass Rate %',
+          data: passRate,
+          fill: true,
+          tension: 0.25
+        }]
+      },
+      options: {
+        scales: {
+          y: { beginAtZero: true, max: 100 }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
