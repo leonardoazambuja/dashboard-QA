@@ -1,0 +1,52 @@
+name: Atualizar Dashboard QA
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 10 * * 1-5"
+
+permissions:
+  contents: write
+
+jobs:
+  update-dashboard:
+    runs-on: ubuntu-latest
+
+    env:
+      AZDO_ORG: webcontinental
+      AZDO_PROJECT: Webcontinental
+      AZDO_API_VERSION: "7.1"
+      DEFAULT_DAYS_BACK: "15"
+      AZDO_PAT: ${{ secrets.AZDO_PAT }}
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Instalar dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Gerar relatório QA
+        run: |
+          python -m src.report_executed_by_user 15
+
+      - name: Publicar HTML no docs
+        run: |
+          mkdir -p docs
+          cp output/executados_por_colaborador_15d.html docs/index.html
+          touch docs/.nojekyll
+
+      - name: Commit e push se houver alterações
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/index.html docs/.nojekyll output/
+          git diff --cached --quiet || git commit -m "Atualiza dashboard QA automaticamente"
+          git push
