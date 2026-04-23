@@ -82,15 +82,15 @@
       </div>
       <div class="card">
         <div class="metric-label">Executados</div>
-        <div class="metric-value">124</div>
+        <div class="metric-value">129</div>
       </div>
       <div class="card">
         <div class="metric-label">Passed</div>
-        <div class="metric-value">106</div>
+        <div class="metric-value">109</div>
       </div>
       <div class="card">
         <div class="metric-label">Pass rate médio</div>
-        <div class="metric-value">85.5%</div>
+        <div class="metric-value">84.5%</div>
       </div>
     </div>
 
@@ -133,11 +133,21 @@
           
         <tr>
           <td>Julyano Torres Costa</td>
-          <td>53</td>
+          <td>52</td>
           <td>44</td>
-          <td>7</td>
+          <td>6</td>
           <td>0</td>
-          <td>83.0%</td>
+          <td>84.6%</td>
+        </tr>
+        
+
+        <tr>
+          <td>Jairo Candido Da Silva Namiki</td>
+          <td>30</td>
+          <td>28</td>
+          <td>1</td>
+          <td>0</td>
+          <td>93.3%</td>
         </tr>
         
 
@@ -152,32 +162,22 @@
         
 
         <tr>
-          <td>Jairo Candido Da Silva Namiki</td>
-          <td>21</td>
-          <td>20</td>
-          <td>1</td>
-          <td>0</td>
-          <td>95.2%</td>
-        </tr>
-        
-
-        <tr>
           <td>Romulo Severo De Freitas</td>
-          <td>11</td>
           <td>10</td>
-          <td>1</td>
+          <td>10</td>
           <td>0</td>
-          <td>90.9%</td>
+          <td>0</td>
+          <td>100.0%</td>
         </tr>
         
 
         <tr>
           <td>Hebrom Chaves De Souza</td>
-          <td>11</td>
-          <td>10</td>
-          <td>0</td>
-          <td>0</td>
-          <td>90.9%</td>
+          <td>9</td>
+          <td>5</td>
+          <td>1</td>
+          <td>2</td>
+          <td>55.6%</td>
         </tr>
         
         </tbody>
@@ -186,11 +186,11 @@
   </div>
 
   <script>
-    const labels = ["Julyano Torres Costa", "Patricia Menezes Barcellos", "Jairo Candido Da Silva Namiki", "Romulo Severo De Freitas", "Hebrom Chaves De Souza"];
-    const executed = [53, 28, 21, 11, 11];
-    const passed = [44, 22, 20, 10, 10];
-    const failed = [7, 4, 1, 1, 0];
-    const passRate = [83.0, 78.6, 95.2, 90.9, 90.9];
+    const labels = ["Julyano Torres Costa", "Jairo Candido Da Silva Namiki", "Patricia Menezes Barcellos", "Romulo Severo De Freitas", "Hebrom Chaves De Souza"];
+    const executed = [52, 30, 28, 10, 9];
+    const passed = [44, 28, 22, 10, 5];
+    const failed = [6, 1, 4, 0, 1];
+    const passRate = [84.6, 93.3, 78.6, 100.0, 55.6];
 
     new Chart(document.getElementById('executedChart'), {
       type: 'bar',
